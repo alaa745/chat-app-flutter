@@ -32,8 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    UserProvider userProvider =
-        BlocProvider.of<UserProvider>(context);
+    UserProvider userProvider = BlocProvider.of<UserProvider>(context);
     if (userProvider.state is LoggedInState) {
       LoggedInState loggedInState = userProvider.state as LoggedInState;
       print('user is ${loggedInState.user.email}');
@@ -104,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     const Center(
                       child: Text(
-                        'Chat App',
+                        'Chat Flutter App',
                         style: TextStyle(
                             fontSize: 30,
                             color: Colors.white,
