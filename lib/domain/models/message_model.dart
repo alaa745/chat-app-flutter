@@ -2,14 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MessageModel {
   final String message;
-  final bool isSender;
   final String senderId;
-  final DateTime date;
+  final DateTime dateTime;
 
   MessageModel({
     required this.message,
-    required this.isSender,
-    required this.date,
+    required this.dateTime,
     required this.senderId,
   });
 
@@ -18,10 +16,9 @@ class MessageModel {
       DocumentSnapshot<Map<String, dynamic>> data, SnapshotOptions? options) {
     return MessageModel(
       message: data['message'],
-      isSender: data['isSender'],
       senderId: data['senderId'],
-      date: data['date'] != null
-          ? (data['date'] as Timestamp).toDate()
+      dateTime: data['dateTime'] != null
+          ? (data['dateTime'] as Timestamp).toDate()
           : DateTime.now(),
     );
   }
@@ -30,8 +27,7 @@ class MessageModel {
   Map<String, dynamic> toFireStore() {
     return {
       'message': message,
-      'isSender': isSender,
-      'date': date,
+      'dateTime': dateTime,
       'senderId': senderId,
     };
   }

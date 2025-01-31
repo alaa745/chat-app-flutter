@@ -103,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     const Center(
                       child: Text(
-                        'Chat Flutter App',
+                        'Chat App',
                         style: TextStyle(
                             fontSize: 30,
                             color: Colors.white,

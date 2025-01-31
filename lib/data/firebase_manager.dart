@@ -126,14 +126,12 @@ class FirebaseManager {
   }
 
   // send message to room document
-  Future<void> sendMessage(
-      String roomId, String message, String sender) async {
+  Future<void> sendMessage(String roomId, String message, String sender) async {
     var db = FirebaseFirestore.instance;
     final messageModel = MessageModel(
       message: message,
       senderId: sender,
-      isSender: true,
-      date: DateTime.now(),
+      dateTime: DateTime.now(),
     );
     final docRef = db
         .collection("rooms")
@@ -160,7 +158,7 @@ class FirebaseManager {
             fromFirestore: MessageModel.fromFireStore,
             toFirestore: (MessageModel message, _) => message.toFireStore(),
           )
-          .orderBy("date")
+          .orderBy("dateTime")
           .snapshots();
     } on FirebaseException catch (e) {
       throw ServerErrorException(errorMessage: e.message!);

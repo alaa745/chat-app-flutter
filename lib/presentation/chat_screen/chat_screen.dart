@@ -38,13 +38,14 @@ class _ChatScreenState extends State<ChatScreen> {
     arguments =
         ModalRoute.of(context)!.settings.arguments as ChatScreenArguments;
     roomModel = arguments.roomModel;
-    _viewmodel = ChatScreenViewmodel();
-    _viewmodel.getMessages(roomId: roomModel.id!);
+    // _viewmodel.getMessages(roomId: roomModel.id!);
   }
 
   @override
   void initState() {
     // TODO: implement initState
+    _viewmodel = ChatScreenViewmodel();
+
     super.initState();
   }
 
@@ -59,10 +60,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // sendButtonProvider.changeIsSendable(false);
-
-    // provider.changeIsSendable(false);
-    // print(provider.isSendable);
     UserProvider userProvider = BlocProvider.of<UserProvider>(context);
     if (userProvider.state is LoggedInState) {
       LoggedInState loggedInState = userProvider.state as LoggedInState;
@@ -72,7 +69,7 @@ class _ChatScreenState extends State<ChatScreen> {
       print('user is not logged in');
     }
     return BlocConsumer(
-      bloc: _viewmodel,
+      bloc: _viewmodel..getMessages(roomId: roomModel.id!),
       listenWhen: (previous, current) {
         if (current is GetMessagesFailState ||
             current is SendMessagesFailState ||
@@ -133,16 +130,17 @@ class _ChatScreenState extends State<ChatScreen> {
       builder: (context, state) {
         List<MessageModel> messages = [];
         if (state is GetMessagesSuccessState) {
-          // print("gett");
+          if (messages.length < state.messages!.length) {
+            // print(messages.length);
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              _scrollController.animateTo(
+                _scrollController.position.maxScrollExtent,
+                duration: const Duration(milliseconds: 800),
+                curve: Curves.linear,
+              );
+            });
+          }
           messages = state.messages!;
-          // if (messages.length > messagesCount) {
-          //   print("trueee");
-          //   messagesCount = messages.length;
-          //   _scrollController.jumpTo(
-          //     _scrollController.position.extentTotal,
-          //     // curve: Curves.easeOut,
-          //   );
-          // }
         }
         return Container(
           decoration: BoxDecoration(
@@ -232,10 +230,19 @@ class _ChatScreenState extends State<ChatScreen> {
                                               userId: senderId);
                                           _controller.clear();
                                           isSendable = false;
-                                          Provider.of<SendButtonProvider>(
-                                                  context,
-                                                  listen: false)
-                                              .changeIsSendable(isSendable);
+                                          notifier.changeIsSendable(isSendable);
+                                          // if (_scrollController
+                                          //         .position.pixels !=
+                                          //     _scrollController
+                                          //         .position.maxScrollExtent) {
+                                          //   _scrollController.animateTo(
+                                          //     _scrollController
+                                          //         .position.maxScrollExtent,
+                                          //     duration: const Duration(
+                                          //         milliseconds: 700),
+                                          //     curve: Curves.linear,
+                                          //   );
+                                          // }
                                         }
                                       : null,
                                   child: Icon(

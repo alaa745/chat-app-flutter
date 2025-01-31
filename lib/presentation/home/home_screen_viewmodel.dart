@@ -27,7 +27,7 @@ class HomeScreenViewmodel extends Cubit<HomeViewState> {
 
     try {
       _usecase.invoke().listen((snapshot) {
-        rooms = snapshot.docs.map((doc) => doc.data()).toList();;
+        rooms = snapshot.docs.map((doc) => doc.data()).toList();
         print('roooms ${rooms.length}');
         emit(GetRoomsSuccessState(rooms));
       });
