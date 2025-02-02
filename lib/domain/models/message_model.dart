@@ -4,12 +4,12 @@ class MessageModel {
   final String message;
   final String senderId;
   final DateTime dateTime;
-
-  MessageModel({
-    required this.message,
-    required this.dateTime,
-    required this.senderId,
-  });
+  final String userName;
+  MessageModel(
+      {required this.message,
+      required this.dateTime,
+      required this.senderId,
+      required this.userName});
 
   // from firestore
   factory MessageModel.fromFireStore(
@@ -17,6 +17,7 @@ class MessageModel {
     return MessageModel(
       message: data['message'],
       senderId: data['senderId'],
+      userName: data["userName"],
       dateTime: data['dateTime'] != null
           ? (data['dateTime'] as Timestamp).toDate()
           : DateTime.now(),
@@ -29,6 +30,7 @@ class MessageModel {
       'message': message,
       'dateTime': dateTime,
       'senderId': senderId,
+      'userName': userName
     };
   }
 }

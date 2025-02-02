@@ -26,8 +26,8 @@ class ChatScreenViewmodel extends Cubit<ChatScreenViewState> {
 
   void getMessages({required String roomId}) async {
     List<MessageModel> messages = [];
+    String userName = "";
     try {
-
       _getMessageUsecase.invoke(roomId).listen((snapshot) {
         messages = snapshot.docs.map((doc) => doc.data()).toList();
         emit(GetMessagesSuccessState(messages));
@@ -40,9 +40,10 @@ class ChatScreenViewmodel extends Cubit<ChatScreenViewState> {
   void sendMessage(
       {required String roomId,
       required String message,
-      required String userId}) {
+      required String userId,
+      required String userName}) {
     try {
-      _sendMessageUsecase.invoke(roomId, message, userId);
+      _sendMessageUsecase.invoke(roomId, message, userId, userName);
       // emit(SendMessagesSuccessState());
     } on ServerErrorException catch (e) {
       emit(SendMessagesFailState(e.errorMessage));

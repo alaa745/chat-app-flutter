@@ -125,12 +125,35 @@ class FirebaseManager {
     }
   }
 
+  Future<UserModel?> getUser(String userId) async {
+    try {
+      var db = FirebaseFirestore.instance;
+      var ref = db.collection("users").doc(userId).withConverter(
+            fromFirestore: UserModel.fromFireStore,
+            toFirestore: (UserModel user, _) => user.toFireStore(),
+          );
+      final docSnap = await ref.get();
+      final user = docSnap.data();
+
+      return user;
+    } on FirebaseException catch (e) {
+      throw ServerErrorException(errorMessage: e.message!);
+    } on Exception catch (e) {
+      throw ServerErrorException(errorMessage: e.toString());
+    }
+  }
+
   // send message to room document
-  Future<void> sendMessage(String roomId, String message, String sender) async {
+  Future<void> sendMessage(
+      {required String roomId,
+      required String userName,
+      required String message,
+      required String sender}) async {
     var db = FirebaseFirestore.instance;
     final messageModel = MessageModel(
       message: message,
       senderId: sender,
+      userName: userName,
       dateTime: DateTime.now(),
     );
     final docRef = db

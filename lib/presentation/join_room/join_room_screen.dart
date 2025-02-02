@@ -75,7 +75,7 @@ class _JoinRoomScreenState extends State<JoinRoomScreen> {
             backgroundColor: Colors.transparent,
             appBar: AppBar(
               title: Text(
-                'Movie Room',
+                arguments!["roomName"],
                 style:
                     TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
@@ -112,8 +112,8 @@ class _JoinRoomScreenState extends State<JoinRoomScreen> {
                             ),
                             Container(
                               // margin: EdgeInsets.only(top: 5),
-                              child: const Text(
-                                'Join The Movies Zone!',
+                              child: Text(
+                                'Join The ${arguments!["roomName"]} Room',
                                 style: TextStyle(
                                     fontSize: 22,
                                     color: Colors.black,
@@ -124,7 +124,7 @@ class _JoinRoomScreenState extends State<JoinRoomScreen> {
                               height: 25,
                             ),
                             Image.asset(
-                              'images/movie_room.png',
+                              'images/create_room.png',
                               width: 200,
                               height: 200,
                             ),
@@ -132,8 +132,8 @@ class _JoinRoomScreenState extends State<JoinRoomScreen> {
                               alignment: Alignment.center,
                               child: Container(
                                 margin: EdgeInsets.only(top: 40),
-                                child: const Text(
-                                  'Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod tempor incididunt ut labore et  dolore magna aliqua. Ut enim ad minim veniam,  quis nostrud exercitation ullamco laboris nisi ut  aliquip ex ea commodo consequat. Duis aute irure ',
+                                child: Text(
+                                  arguments!["roomDesc"],
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: 18,

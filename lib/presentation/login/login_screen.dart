@@ -79,13 +79,8 @@ class _LoginScreenState extends State<LoginScreen> {
           UserProvider userProvider = BlocProvider.of<UserProvider>(context);
           print('user logged in ${state.credential.user!.email}');
           userProvider.login(
-            LoggedInState(
-              user: UserModel(
-                fullName: args?.fullName ?? "",
-                email: state.credential.user!.email,
-                id: state.credential.user!.uid,
-              ),
-            ),
+            state.credential.user!.email!,
+            state.credential.user!.uid,
           );
           emailController.clear();
           passwordController.clear();

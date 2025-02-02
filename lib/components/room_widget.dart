@@ -31,6 +31,8 @@ class RoomWidget extends StatelessWidget {
                 arguments: <String, dynamic>{
                     'userId': userId,
                     'roomId': roomModel!.id,
+                    'roomName': roomModel!.name,
+                    'roomDesc': roomModel!.description
                   })
             : Navigator.pushNamed(
                 context,

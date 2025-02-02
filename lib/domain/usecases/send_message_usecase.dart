@@ -4,7 +4,7 @@ class SendMessageUsecase {
   RoomRepository repository;
   SendMessageUsecase({required this.repository});
   Future<void> invoke(
-      String roomId, String message, String userName) {
-    return repository.sendMessage(roomId, message, userName);
+      String roomId, String message, String senderId, String userName) {
+    return repository.sendMessage(roomId, message, senderId, userName);
   }
 }

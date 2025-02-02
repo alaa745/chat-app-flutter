@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:chat_app/presentation/login/login_screen.dart';
 import 'package:chat_app/presentation/login/login_screen_arguments.dart';
 import 'package:chat_app/presentation/registration/register_screen_viewmodel.dart';
+import 'package:chat_app/providers/auth_provider.dart';
 import 'package:chat_app/utils/dialog_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -35,6 +36,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    UserProvider userProvider = BlocProvider.of<UserProvider>(context);
     return BlocConsumer(
       bloc: _viewmodel,
       listener: (context, state) {
@@ -68,7 +70,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         if (state is RegisterSuccessState) {
           print('user data is ${state.credential.user!.email}');
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.pushReplacementNamed(context, LoginScreen.routeName , arguments: LoginScreenArguments(fullName: fullNameController.text));
+            userProvider.registerFullName(fullNameController.text);
+            Navigator.pushReplacementNamed(context, LoginScreen.routeName,
+                arguments:
+                    LoginScreenArguments(fullName: fullNameController.text));
           });
         }
         return Scaffold(

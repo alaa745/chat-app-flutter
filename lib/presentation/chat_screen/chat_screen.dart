@@ -27,6 +27,7 @@ class _ChatScreenState extends State<ChatScreen> {
   TextEditingController _controller = TextEditingController(text: "");
   bool isSendable = false;
   int messagesCount = 0;
+  late String userName;
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
@@ -49,21 +50,13 @@ class _ChatScreenState extends State<ChatScreen> {
     super.initState();
   }
 
-  bool _isAtBottom() {
-    if (!_scrollController.hasClients) return false;
-    const threshold =
-        100.0; // Pixels from the bottom to consider "at the bottom"
-    return _scrollController.position.maxScrollExtent -
-            _scrollController.position.pixels <=
-        threshold;
-  }
-
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = BlocProvider.of<UserProvider>(context);
     if (userProvider.state is LoggedInState) {
       LoggedInState loggedInState = userProvider.state as LoggedInState;
       senderId = loggedInState.user.id!;
+      userName = loggedInState.user.fullName!;
       print('user is ${loggedInState.user.email}');
     } else {
       print('user is not logged in');
@@ -209,9 +202,11 @@ class _ChatScreenState extends State<ChatScreen> {
                                     listen: false)
                                 .isSendable) {
                               _viewmodel.sendMessage(
-                                  roomId: roomModel.id!,
-                                  message: _controller.text,
-                                  userId: senderId);
+                                roomId: roomModel.id!,
+                                message: _controller.text,
+                                userId: senderId,
+                                userName: userName,
+                              );
                               _controller.clear();
                               Provider.of<SendButtonProvider>(context,
                                       listen: false)
@@ -225,9 +220,11 @@ class _ChatScreenState extends State<ChatScreen> {
                                   onTap: notifier.isSendable
                                       ? () {
                                           _viewmodel.sendMessage(
-                                              roomId: roomModel.id!,
-                                              message: _controller.text,
-                                              userId: senderId);
+                                            roomId: roomModel.id!,
+                                            message: _controller.text,
+                                            userId: senderId,
+                                            userName: userName,
+                                          );
                                           _controller.clear();
                                           isSendable = false;
                                           notifier.changeIsSendable(isSendable);

@@ -31,7 +31,9 @@ class RoomDatasourceImpl implements RoomDatasource {
   }
 
   @override
-  Future<void> sendMessage(String roomId, String message , String userName) {
-    return firebaseManager.sendMessage(roomId, message , userName);
+  Future<void> sendMessage(
+      String roomId, String message, String senderId, String userName) {
+    return firebaseManager.sendMessage(
+        roomId: roomId, message: message, userName: userName, sender: senderId);
   }
 }

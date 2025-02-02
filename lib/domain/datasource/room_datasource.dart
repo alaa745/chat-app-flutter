@@ -8,7 +8,8 @@ abstract class RoomDatasource {
   Stream<QuerySnapshot<RoomModel>> getRooms();
   Future<void> joinRoom({String? userId, String? roomId});
 
-  Future<void> sendMessage(String roomId, String message , String userName);
+  Future<void> sendMessage(
+      String roomId, String message, String senderId, String userName);
 
   Stream<QuerySnapshot<MessageModel>> getMessages(String roomId);
 }

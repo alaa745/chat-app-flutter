@@ -31,7 +31,7 @@ class RoomRepositoryImpl implements RoomRepository {
 
   @override
   Future<void> sendMessage(
-      String roomId, String message, String userName) {
-    return roomDatasource.sendMessage(roomId, message, userName);
+      String roomId, String message, String senderId, String userName) {
+    return roomDatasource.sendMessage(roomId, message, senderId, userName);
   }
 }
