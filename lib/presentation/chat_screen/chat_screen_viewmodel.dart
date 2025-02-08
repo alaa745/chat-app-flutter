@@ -30,7 +30,7 @@ class ChatScreenViewmodel extends Cubit<ChatScreenViewState> {
     try {
       _getMessageUsecase.invoke(roomId).listen((snapshot) {
         messages = snapshot.docs.map((doc) => doc.data()).toList();
-        emit(GetMessagesSuccessState(messages));
+        emit(GetMessagesSuccessState(List.from(messages)));
       });
     } on ServerErrorException catch (e) {
       emit(GetMessagesFailState(e.errorMessage));

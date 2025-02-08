@@ -1,5 +1,6 @@
 import 'package:chat_app/firebase_options.dart';
 import 'package:chat_app/presentation/chat_screen/chat_screen.dart';
+import 'package:chat_app/presentation/chat_screen/chat_screen_viewmodel.dart';
 import 'package:chat_app/presentation/create_room/create_room_screen.dart';
 import 'package:chat_app/presentation/home/home_screen.dart';
 import 'package:chat_app/presentation/join_room/join_room_screen.dart';
